@@ -4,20 +4,41 @@ namespace idealgas {
 
 using glm::vec2;
 
-GasContainer::GasContainer() {
+GasContainer::GasContainer(Particle particle) {
+  std::vector<Particle> particles;
+  for (int i = 0; i < 2; i++) {
+    Particle particle(10, 200, 200);
+    particles.push_back(particle);
+    position_ = vec2 (particle.getXPosition(), particle.getYPosition());
+  }
+  //particle_ = Particle(10, 200, 200);
 
 }
 
 void GasContainer::Display() const {
-  // This function has a lot of magic numbers; be sure to design your code in a way that avoids this.
   ci::gl::color(ci::Color("orange"));
-  ci::gl::drawSolidCircle(vec2(dummy_variable_, 200), 10);
+  ci::gl::drawSolidCircle(vec2(position_.x, position_.y), particles[0].getRadius());
   ci::gl::color(ci::Color("white"));
-  ci::gl::drawStrokedRect(ci::Rectf(vec2(100, 100), vec2(600, 400)));
+  ci::gl::drawStrokedRect(ci::Rectf(vec2(kRectangleXMin, kRectangleYMin), vec2(kRectangleXMax, kRectangleYMax)));
 }
 
 void GasContainer::AdvanceOneFrame() {
-  ++dummy_variable_;
+  float velocity_x;
+  float velocity_y;
+  //position_ = vec2 (particle_.getXPosition(), particle_.getYPosition());
+  vec2 velocity(particle_.GetXVelocity(), particle_.GetYVelocity());
+
+  position_ += velocity;
+
+
+
+//  float position_x = particle_.getXPosition();
+//  float velocity_x = particle_.GetXVelocity();
+//  position_x += velocity_x;
+//  particle_.SetXPosition(++particle_x);
+//
+//  float position_y = particle_.getYPosition();
+//  particle_.SetYPosition(++particle_y);
 }
 
 }  // namespace idealgas
