@@ -4,44 +4,28 @@ namespace idealgas {
 
 using glm::vec2;
 
-Particle::Particle(float radius, float x_position, float y_position) {
+Particle::Particle(float radius, vec2 position, vec2 velocity) {
   radius_ = radius;
-  x_position_ = x_position;
-  y_position_ = y_position;
-  y_velocity_ = 1;
-  x_velocity_ = 1;
+  position_ = position;
+  velocity_ = velocity;
 }
-float Particle::getRadius() const {return radius_; }
-
-float Particle::getXPosition() const {return x_position_; }
-
-float Particle::getYPosition() const {return y_position_; }
-
-std::vector<float> Particle::GetPosition() const {
-  std::vector<float> position_return;
-  vec2 position(x_position_, y_position_);
-  position_return.push_back(position.x);
-  position_return.push_back(position.y);
-  return position_return;
+const vec2& Particle::getPosition() const {
+  return position_;
 }
 
-void Particle::SetXPosition(float xPosition) {
-  x_position_ = xPosition;
+const vec2& Particle::getVelocity() const {
+  return velocity_;
 }
-void Particle::SetYPosition(float yPosition) {
-  y_position_ = yPosition;
+
+void Particle::setVelocity(const vec2& velocity) {
+  velocity_ = velocity;
 }
-float Particle::GetXVelocity() const {
-  return x_velocity_;
+
+void Particle::AddVelocityToPosition() {
+  position_ += velocity_;
 }
-float Particle::GetYVelocity() const {
-  return y_velocity_;
-}
-void Particle::SetXVelocity(float x_velocity) {
-  x_velocity_ = x_velocity;
-}
-void Particle::SetYVelocity(float y_velocity) {
-  y_velocity_ = y_velocity;
+float Particle::getRadius() const {
+  return radius_;
 }
 
 }  // namespace idealgas

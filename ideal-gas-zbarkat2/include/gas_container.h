@@ -16,7 +16,7 @@ class GasContainer {
   /**
    * TODO: Add more parameters to this constructor, and add documentation.
    */
-  GasContainer(Particle particle);
+  GasContainer();
 
   /**
    * Displays the container walls and the current positions of the particles.
@@ -30,17 +30,31 @@ class GasContainer {
   void AdvanceOneFrame();
 
  private:
-  /**
-   * This variable is just for the purposes of demonstrating how to make a shape move
-   * across a screen. Please remove it once you start working on your code.
-   */
-  static constexpr int kRectangleXMin = 100;
-  static constexpr int kRectangleYMin = 100;
-  static constexpr int kRectangleXMax = 600;
-  static constexpr int kRectangleYMax = 400;
+  static constexpr float kRectangleXMin = 50;
+  static constexpr float kRectangleYMin = 50;
+  static constexpr float kRectangleXMax = 800;
+  static constexpr float kRectangleYMax = 600;
+  static constexpr int kNumberOfParticles = 20;
+  static constexpr float kRadius = 10;
+  static constexpr float kInitialXVelocity = 0;
+  static constexpr float kInitialYVelocity = 3;
 
-  std::vector<Particle> particles;
-  vec2 position_;
+  std::vector<Particle> particles_;
+
+  void DrawCircles() const;
+
+  void DrawRectangle() const;
+
+  void BounceOffWall(size_t particle);
+
+  void BounceOffAnotherParticle(size_t particle);
+
+  void SetVelocityOfParticles(size_t particle, vec2 velocity_of_particle_one,
+                              vec2 velocity_of_particle_two,
+                              vec2 position_of_particle_one,
+                              vec2 position_of_particle_two);
+
+  float RandomFloat(float min, float max);
 };
 
 }  // namespace idealgas

@@ -15,36 +15,22 @@ class Particle {
   /**
    * TODO: Add more parameters to this constructor, and add documentation.
    */
-  Particle(float radius, float particle_x, float particle_y);
+  Particle(float radius, vec2 position, vec2 velocity);
+
+  const vec2& getPosition() const;
+
+  const vec2& getVelocity() const;
 
   float getRadius() const;
 
-  float getXPosition() const;
+  void setVelocity(const vec2& velocity);
 
-  float getYPosition() const;
-
-  float GetXVelocity() const;
-
-  float GetYVelocity() const;
-
-  std::vector<float> GetPosition() const;
-
-  void SetXPosition(float xPosition);
-
-  void SetYPosition(float yPosition);
-
-  void SetXVelocity(float x_velocity);
-
-  void SetYVelocity(float y_velocity);
-
-  //Particle CreateParticle(size_t particle_x, size_t particle_y);
+  void AddVelocityToPosition();
 
  private:
   float radius_;
-  float x_position_;
-  float y_position_;
-  float x_velocity_;
-  float y_velocity_;
+  vec2 position_;
+  vec2 velocity_;
 };
 
 }  // namespace idealgas

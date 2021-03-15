@@ -2,7 +2,7 @@
 
 namespace idealgas {
 
-IdealGasApp::IdealGasApp() : container_(idealgas::Particle(0,0,0)) {
+IdealGasApp::IdealGasApp() {
   ci::app::setWindowSize(kWindowSize, kWindowSize);
 }
 
