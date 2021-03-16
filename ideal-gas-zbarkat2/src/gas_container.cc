@@ -7,11 +7,14 @@ namespace idealgas {
 using glm::vec2;
 
 GasContainer::GasContainer() {
-  for (int i = 0; i < kNumberOfParticles; i++) {
+  number_of_particles = 100;
+  radius = 15;
+
+  for (size_t i = 0; i < number_of_particles; i++) {
     Particle particle(
-        kRadius,
-        vec2(RandomFloat(kRectangleXMin + kRadius, kRectangleXMax - kRadius),
-             RandomFloat(kRectangleYMin + kRadius, kRectangleYMax - kRadius)),
+        radius,
+        vec2(RandomFloat(kRectangleXMin + radius, kRectangleXMax - radius),
+             RandomFloat(kRectangleYMin + radius, kRectangleYMax - radius)),
         vec2(kInitialXVelocity, kInitialYVelocity));
     particles_.push_back(particle);
   }
@@ -23,16 +26,17 @@ void GasContainer::Display() const {
 }
 
 void GasContainer::AdvanceOneFrame() {
-  for (size_t particle = 0; particle < kNumberOfParticles; particle++) {
+  for (size_t particle = 0; particle < particles_.size(); particle++) {
     BounceOffAnotherParticle(particle);
 
     BounceOffWall(particle);
+
     particles_[particle].AddVelocityToPosition();
   }
 }
 
 void GasContainer::DrawCircles() const {
-  for (size_t i = 0; i < kNumberOfParticles; i++) {
+  for (size_t i = 0; i < particles_.size(); i++) {
     ci::gl::color(ci::Color("orange"));
     ci::gl::drawSolidCircle(
         vec2(particles_[i].getPosition().x, particles_[i].getPosition().y),
@@ -69,7 +73,7 @@ void GasContainer::BounceOffWall(size_t particle) {
 
 void GasContainer::BounceOffAnotherParticle(size_t particle) {
   for (size_t colliding_particle = particle + 1;
-       colliding_particle < kNumberOfParticles; colliding_particle++) {
+       colliding_particle < particles_.size(); colliding_particle++) {
     if (distance(abs(particles_[particle].getPosition()),
                  abs(particles_[colliding_particle].getPosition())) <=
         particles_[particle].getRadius() +
@@ -120,6 +124,18 @@ float GasContainer::RandomFloat(float min, float max) {
   float range = max - min;
 
   return (random * range) + min;
+}
+
+void GasContainer::setNumberOfParticles(size_t numberOfParticles) {
+  number_of_particles = numberOfParticles;
+}
+
+void GasContainer::setRadius(float radius) {
+  GasContainer::radius = radius;
+}
+
+const std::vector<Particle>& GasContainer::getParticles() const {
+  return particles_;
 }
 
 }  // namespace idealgas

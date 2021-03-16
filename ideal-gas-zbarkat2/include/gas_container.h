@@ -26,17 +26,23 @@ class GasContainer {
    */
   void AdvanceOneFrame();
 
+  void setNumberOfParticles(size_t numberOfParticles);
+
+  void setRadius(float radius);
+
+  const std::vector<Particle>& getParticles() const;
+
  private:
   static constexpr float kRectangleXMin = 50;
   static constexpr float kRectangleYMin = 50;
   static constexpr float kRectangleXMax = 800;
   static constexpr float kRectangleYMax = 600;
-  static constexpr int kNumberOfParticles = 100;
-  static constexpr float kRadius = 20;
-  static constexpr float kInitialXVelocity = 0;
-  static constexpr float kInitialYVelocity = 2;
+  static constexpr float kInitialXVelocity = 3;
+  static constexpr float kInitialYVelocity = 3;
 
   std::vector<Particle> particles_;
+  size_t number_of_particles;
+  float radius;
 
   void DrawCircles() const;
 
