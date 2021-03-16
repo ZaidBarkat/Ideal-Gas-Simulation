@@ -12,7 +12,20 @@ using glm::vec2;
  */
 class Particle {
  public:
+  /**
+   * Use to set an individual particle's radius, initial position, and initial
+   * velocity.
+   *
+   * @param radius of a particle
+   * @param position of a particle
+   * @param velocity of a particle
+   */
   Particle(size_t radius, const vec2& position, const vec2& velocity);
+
+  /**
+   * Use to add the velocity to the position of a particle.
+   */
+  void AddVelocityToPosition();
 
   const vec2& getPosition() const;
 
@@ -23,8 +36,6 @@ class Particle {
   void setVelocity(const vec2& velocity);
 
   void setPosition(const vec2& position);
-
-  void AddVelocityToPosition();
 
  private:
   size_t radius_;

@@ -6,13 +6,18 @@ using glm::vec2;
 
 Particle::Particle(size_t radius, const vec2& position, const vec2& velocity) {
   if (position.x < 0 || position.y < 0) {
-    std::invalid_argument("Impossible positions");
+    throw std::invalid_argument("Impossible positions");
   }
 
   radius_ = radius;
   position_ = position;
   velocity_ = velocity;
 }
+
+void Particle::AddVelocityToPosition() {
+  position_ += velocity_;
+}
+
 const vec2& Particle::getPosition() const {
   return position_;
 }
@@ -29,9 +34,6 @@ void Particle::setPosition(const vec2& position) {
   position_ = position;
 }
 
-void Particle::AddVelocityToPosition() {
-  position_ += velocity_;
-}
 size_t Particle::getRadius() const {
   return radius_;
 }
