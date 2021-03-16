@@ -12,20 +12,22 @@ using glm::vec2;
  */
 class Particle {
  public:
-  Particle(float radius, const vec2& position, const vec2& velocity);
+  Particle(size_t radius, const vec2& position, const vec2& velocity);
 
   const vec2& getPosition() const;
 
   const vec2& getVelocity() const;
 
-  float getRadius() const;
+  size_t getRadius() const;
 
   void setVelocity(const vec2& velocity);
+
+  void setPosition(const vec2& position);
 
   void AddVelocityToPosition();
 
  private:
-  float radius_;
+  size_t radius_;
   vec2 position_;
   vec2 velocity_;
 };

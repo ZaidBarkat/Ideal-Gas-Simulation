@@ -13,7 +13,7 @@ using glm::vec2;
  */
 class GasContainer {
  public:
-  GasContainer();
+  GasContainer(size_t radius, size_t number_of_particles);
 
   /**
    * Displays the container walls and the current positions of the particles.
@@ -26,11 +26,9 @@ class GasContainer {
    */
   void AdvanceOneFrame();
 
-  void setNumberOfParticles(size_t numberOfParticles);
-
-  void setRadius(float radius);
-
   const std::vector<Particle>& getParticles() const;
+
+  void setParticles(const std::vector<Particle>& particles);
 
  private:
   static constexpr float kRectangleXMin = 50;
@@ -41,8 +39,6 @@ class GasContainer {
   static constexpr float kInitialYVelocity = 3;
 
   std::vector<Particle> particles_;
-  size_t number_of_particles;
-  float radius;
 
   void DrawCircles() const;
 
@@ -52,10 +48,10 @@ class GasContainer {
 
   void BounceOffAnotherParticle(size_t particle);
 
-  void SetVelocityOfParticles(size_t particle, const vec2& velocity_of_particle_one,
-                              const vec2& velocity_of_particle_two,
-                              const vec2& position_of_particle_one,
-                              const vec2& position_of_particle_two);
+  void SetVelocityOfParticles(size_t particle, const vec2& velocity_one,
+                              const vec2& velocity_two,
+                              const vec2& position_one,
+                              const vec2& position_two);
 
   float RandomFloat(float min, float max);
 };

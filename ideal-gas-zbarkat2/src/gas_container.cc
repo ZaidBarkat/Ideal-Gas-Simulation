@@ -6,11 +6,11 @@ namespace idealgas {
 
 using glm::vec2;
 
-GasContainer::GasContainer() {
-  number_of_particles = 100;
-  radius = 15;
-
+GasContainer::GasContainer(size_t radius, size_t number_of_particles) {
+  //for loop used to go through the number of particles in a container instance, and add
+  // that many Particle objects into a vector.
   for (size_t i = 0; i < number_of_particles; i++) {
+    //particle objects have a radius, initial position, and initial velocity
     Particle particle(
         radius,
         vec2(RandomFloat(kRectangleXMin + radius, kRectangleXMax - radius),
@@ -21,26 +21,31 @@ GasContainer::GasContainer() {
 }
 
 void GasContainer::Display() const {
+  //drawing the circles and the rectangular border
   DrawCircles();
   DrawRectangle();
 }
 
 void GasContainer::AdvanceOneFrame() {
+  //for loop needed to go through every Particle in the vector, to then change
   for (size_t particle = 0; particle < particles_.size(); particle++) {
     BounceOffAnotherParticle(particle);
 
     BounceOffWall(particle);
 
+    //changed velocity in both helper methods, not add that velocity to the position
+    //for every particle
     particles_[particle].AddVelocityToPosition();
   }
 }
 
 void GasContainer::DrawCircles() const {
+  //draws as many circles as Particle objects, also where the new position is put in
   for (size_t i = 0; i < particles_.size(); i++) {
     ci::gl::color(ci::Color("orange"));
     ci::gl::drawSolidCircle(
         vec2(particles_[i].getPosition().x, particles_[i].getPosition().y),
-        particles_[i].getRadius());
+        (float)particles_[i].getRadius());
   }
 }
 
@@ -51,70 +56,76 @@ void GasContainer::DrawRectangle() const {
 }
 
 void GasContainer::BounceOffWall(size_t particle) {
+  //variables created to make code readable
   float velocity_x = particles_[particle].getVelocity().x;
   float velocity_y = particles_[particle].getVelocity().y;
+  float position_x = particles_[particle].getPosition().x;
+  float position_y = particles_[particle].getPosition().y;
+  size_t radius = particles_[particle].getRadius();
 
-  if (abs(particles_[particle].getPosition().x) -
-              particles_[particle].getRadius() <=
-          kRectangleXMin ||
-      abs(particles_[particle].getPosition().x) +
-              particles_[particle].getRadius() >=
-          kRectangleXMax) {
+  //if the position in the x direction is either hitting the left or right wall
+  if (position_x - radius <= kRectangleXMin ||
+      position_x + radius >= kRectangleXMax) {
     particles_[particle].setVelocity(vec2(-velocity_x, velocity_y));
-  } else if (abs(particles_[particle].getPosition().y) -
-                     particles_[particle].getRadius() <=
-                 kRectangleYMin ||
-             abs(particles_[particle].getPosition().y) +
-                     particles_[particle].getRadius() >=
-                 kRectangleYMax) {
+  }
+  //if the position in the y direction is hitting the top or bottom wall
+  else if (position_y - radius <= kRectangleYMin ||
+             position_y + radius >= kRectangleYMax) {
     particles_[particle].setVelocity(vec2(velocity_x, -velocity_y));
   }
 }
 
 void GasContainer::BounceOffAnotherParticle(size_t particle) {
+  //goes through a for loop to go through every particle against one another
   for (size_t colliding_particle = particle + 1;
        colliding_particle < particles_.size(); colliding_particle++) {
-    if (distance(abs(particles_[particle].getPosition()),
-                 abs(particles_[colliding_particle].getPosition())) <=
-        particles_[particle].getRadius() +
-            particles_[colliding_particle].getRadius()) {
-      vec2 velocity_of_particle_one = particles_[particle].getVelocity();
-      vec2 position_of_particle_one = particles_[particle].getPosition();
-      vec2 velocity_of_particle_two =
-          particles_[colliding_particle].getVelocity();
-      vec2 position_of_particle_two =
-          particles_[colliding_particle].getPosition();
+    //variables created to make code more readable
+    vec2 position_particle = particles_[particle].getPosition();
+    vec2 position_colliding_particle =
+        particles_[colliding_particle].getPosition();
+    size_t radius_particle = particles_[particle].getRadius();
+    size_t radius_colliding_particle =
+        particles_[colliding_particle].getRadius();
 
-      if (dot((velocity_of_particle_one - velocity_of_particle_two),
-              (position_of_particle_one - position_of_particle_two)) < 0) {
-        SetVelocityOfParticles(
-            particle, velocity_of_particle_one, velocity_of_particle_two,
-            position_of_particle_one, position_of_particle_two);
+    //if the distance between two particles is less then there radius, they are colliding
+    if (distance(position_particle, position_colliding_particle) <=
+        radius_particle + radius_colliding_particle) {
+      //variables to make code more readable
+      vec2 velocity_one = particles_[particle].getVelocity();
+      vec2 position_one = particles_[particle].getPosition();
+      vec2 velocity_two = particles_[colliding_particle].getVelocity();
+      vec2 position_two = particles_[colliding_particle].getPosition();
 
-        SetVelocityOfParticles(colliding_particle, velocity_of_particle_two,
-                               velocity_of_particle_one,
-                               position_of_particle_two,
-                               position_of_particle_one);
+      //if the dot product of the velocity/position of the two is less then 0
+      //then they are not moving away from each other.
+      if (dot((velocity_one - velocity_two), (position_one - position_two)) <
+          0) {
+        //sets the velocity of one particle
+        SetVelocityOfParticles(particle, velocity_one, velocity_two,
+                               position_one, position_two);
 
-        BounceOffWall(colliding_particle);
-        particles_[colliding_particle].AddVelocityToPosition();
+        //sets the velocity of the colliding particle
+        SetVelocityOfParticles(colliding_particle, velocity_two, velocity_one,
+                               position_two, position_one);
+
+        //if they are colliding, break out of the for loop
         break;
       }
     }
   }
 }
 
-void GasContainer::SetVelocityOfParticles(
-    size_t particle, const vec2& velocity_of_particle_one,
-    const vec2& velocity_of_particle_two, const vec2& position_of_particle_one,
-    const vec2& position_of_particle_two) {
+void GasContainer::SetVelocityOfParticles(size_t particle,
+                                          const vec2& velocity_one,
+                                          const vec2& velocity_two,
+                                          const vec2& position_one,
+                                          const vec2& position_two) {
   particles_[particle].setVelocity(
-      velocity_of_particle_one -
-      ((dot((velocity_of_particle_one - velocity_of_particle_two),
-            (position_of_particle_one - position_of_particle_two))) /
-       (length(position_of_particle_one - position_of_particle_two) *
-        length(position_of_particle_one - position_of_particle_two))) *
-          (position_of_particle_one - position_of_particle_two));
+      velocity_one -
+      ((dot((velocity_one - velocity_two), (position_one - position_two))) /
+       (length(position_one - position_two) *
+        length(position_one - position_two))) *
+          (position_one - position_two));
 }
 
 // Code from Stack OverFlow, to create a random float between two numbers
@@ -126,16 +137,12 @@ float GasContainer::RandomFloat(float min, float max) {
   return (random * range) + min;
 }
 
-void GasContainer::setNumberOfParticles(size_t numberOfParticles) {
-  number_of_particles = numberOfParticles;
-}
-
-void GasContainer::setRadius(float radius) {
-  GasContainer::radius = radius;
-}
-
 const std::vector<Particle>& GasContainer::getParticles() const {
   return particles_;
+}
+
+void GasContainer::setParticles(const std::vector<Particle>& particles) {
+  particles_ = particles;
 }
 
 }  // namespace idealgas
