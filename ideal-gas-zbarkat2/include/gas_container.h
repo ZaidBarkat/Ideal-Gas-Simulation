@@ -31,10 +31,10 @@ class GasContainer {
   static constexpr float kRectangleYMin = 50;
   static constexpr float kRectangleXMax = 800;
   static constexpr float kRectangleYMax = 600;
-  static constexpr int kNumberOfParticles = 20;
-  static constexpr float kRadius = 10;
+  static constexpr int kNumberOfParticles = 100;
+  static constexpr float kRadius = 20;
   static constexpr float kInitialXVelocity = 0;
-  static constexpr float kInitialYVelocity = 3;
+  static constexpr float kInitialYVelocity = 2;
 
   std::vector<Particle> particles_;
 

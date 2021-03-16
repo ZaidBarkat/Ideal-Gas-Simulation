@@ -24,10 +24,9 @@ void GasContainer::Display() const {
 
 void GasContainer::AdvanceOneFrame() {
   for (size_t particle = 0; particle < kNumberOfParticles; particle++) {
-    BounceOffWall(particle);
-
     BounceOffAnotherParticle(particle);
 
+    BounceOffWall(particle);
     particles_[particle].AddVelocityToPosition();
   }
 }
@@ -69,14 +68,18 @@ void GasContainer::BounceOffWall(size_t particle) {
 }
 
 void GasContainer::BounceOffAnotherParticle(size_t particle) {
-  for (size_t j = particle + 1; j < kNumberOfParticles; j++) {
+  for (size_t colliding_particle = particle + 1;
+       colliding_particle < kNumberOfParticles; colliding_particle++) {
     if (distance(abs(particles_[particle].getPosition()),
-                 abs(particles_[j].getPosition())) <=
-        particles_[particle].getRadius() + particles_[j].getRadius()) {
+                 abs(particles_[colliding_particle].getPosition())) <=
+        particles_[particle].getRadius() +
+            particles_[colliding_particle].getRadius()) {
       vec2 velocity_of_particle_one = particles_[particle].getVelocity();
       vec2 position_of_particle_one = particles_[particle].getPosition();
-      vec2 velocity_of_particle_two = particles_[j].getVelocity();
-      vec2 position_of_particle_two = particles_[j].getPosition();
+      vec2 velocity_of_particle_two =
+          particles_[colliding_particle].getVelocity();
+      vec2 position_of_particle_two =
+          particles_[colliding_particle].getPosition();
 
       if (dot((velocity_of_particle_one - velocity_of_particle_two),
               (position_of_particle_one - position_of_particle_two)) < 0) {
@@ -84,22 +87,23 @@ void GasContainer::BounceOffAnotherParticle(size_t particle) {
             particle, velocity_of_particle_one, velocity_of_particle_two,
             position_of_particle_one, position_of_particle_two);
 
-        SetVelocityOfParticles(
-            j, velocity_of_particle_two, velocity_of_particle_one,
-            position_of_particle_two, position_of_particle_one);
+        SetVelocityOfParticles(colliding_particle, velocity_of_particle_two,
+                               velocity_of_particle_one,
+                               position_of_particle_two,
+                               position_of_particle_one);
 
-        particles_[j].AddVelocityToPosition();
+        BounceOffWall(colliding_particle);
+        particles_[colliding_particle].AddVelocityToPosition();
         break;
       }
     }
   }
 }
 
-void GasContainer::SetVelocityOfParticles(size_t particle,
-                                          const vec2& velocity_of_particle_one,
-                                          const vec2& velocity_of_particle_two,
-                                          const vec2& position_of_particle_one,
-                                          const vec2& position_of_particle_two) {
+void GasContainer::SetVelocityOfParticles(
+    size_t particle, const vec2& velocity_of_particle_one,
+    const vec2& velocity_of_particle_two, const vec2& position_of_particle_one,
+    const vec2& position_of_particle_two) {
   particles_[particle].setVelocity(
       velocity_of_particle_one -
       ((dot((velocity_of_particle_one - velocity_of_particle_two),
