@@ -2,9 +2,9 @@
 
 #include "cinder/gl/gl.h"
 
-using glm::vec2;
-
 namespace idealgas {
+
+using glm::vec2;
 
 /**
  * The container in which all of the gas particles are contained. This class
@@ -12,10 +12,7 @@ namespace idealgas {
  */
 class Particle {
  public:
-  /**
-   * TODO: Add more parameters to this constructor, and add documentation.
-   */
-  Particle(float radius, vec2 position, vec2 velocity);
+  Particle(float radius, const vec2& position, const vec2& velocity);
 
   const vec2& getPosition() const;
 

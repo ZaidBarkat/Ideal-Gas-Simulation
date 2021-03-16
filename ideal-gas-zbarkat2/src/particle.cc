@@ -4,7 +4,7 @@ namespace idealgas {
 
 using glm::vec2;
 
-Particle::Particle(float radius, vec2 position, vec2 velocity) {
+Particle::Particle(float radius, const vec2& position, const vec2& velocity) {
   radius_ = radius;
   position_ = position;
   velocity_ = velocity;

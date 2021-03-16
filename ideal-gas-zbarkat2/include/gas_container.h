@@ -3,9 +3,9 @@
 #include "cinder/gl/gl.h"
 #include "particle.h"
 
-using glm::vec2;
-
 namespace idealgas {
+
+using glm::vec2;
 
 /**
  * The container in which all of the gas particles are contained. This class
@@ -13,9 +13,6 @@ namespace idealgas {
  */
 class GasContainer {
  public:
-  /**
-   * TODO: Add more parameters to this constructor, and add documentation.
-   */
   GasContainer();
 
   /**
@@ -49,10 +46,10 @@ class GasContainer {
 
   void BounceOffAnotherParticle(size_t particle);
 
-  void SetVelocityOfParticles(size_t particle, vec2 velocity_of_particle_one,
-                              vec2 velocity_of_particle_two,
-                              vec2 position_of_particle_one,
-                              vec2 position_of_particle_two);
+  void SetVelocityOfParticles(size_t particle, const vec2& velocity_of_particle_one,
+                              const vec2& velocity_of_particle_two,
+                              const vec2& position_of_particle_one,
+                              const vec2& position_of_particle_two);
 
   float RandomFloat(float min, float max);
 };

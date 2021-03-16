@@ -96,10 +96,10 @@ void GasContainer::BounceOffAnotherParticle(size_t particle) {
 }
 
 void GasContainer::SetVelocityOfParticles(size_t particle,
-                                          vec2 velocity_of_particle_one,
-                                          vec2 velocity_of_particle_two,
-                                          vec2 position_of_particle_one,
-                                          vec2 position_of_particle_two) {
+                                          const vec2& velocity_of_particle_one,
+                                          const vec2& velocity_of_particle_two,
+                                          const vec2& position_of_particle_one,
+                                          const vec2& position_of_particle_two) {
   particles_[particle].setVelocity(
       velocity_of_particle_one -
       ((dot((velocity_of_particle_one - velocity_of_particle_two),
@@ -112,7 +112,7 @@ void GasContainer::SetVelocityOfParticles(size_t particle,
 // Code from Stack OverFlow, to create a random float between two numbers
 float GasContainer::RandomFloat(float min, float max) {
   assert(max > min);
-  float random = ((float)rand()) / (float)RAND_MAX;
+  float random = (static_cast<float>(rand())) / static_cast<float>(RAND_MAX);
   float range = max - min;
 
   return (random * range) + min;
