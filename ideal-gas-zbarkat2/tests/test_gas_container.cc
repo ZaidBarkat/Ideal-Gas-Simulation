@@ -113,3 +113,38 @@ TEST_CASE("Particle colliding with another particle tests") {
     REQUIRE(vec2(111, 550) == container.getParticles()[1].getPosition());
   }
 }
+
+TEST_CASE("Three Particles colliding with each other tests") {
+  GasContainer container(10, 3);
+  std::vector<Particle> particles = container.getParticles();
+
+  SECTION("Particles velocity and position") {
+    particles[0].setVelocity(vec2(-1, 0));
+    particles[0].setPosition(vec2(205, 200));
+
+    particles[1].setVelocity(vec2(1, 0));
+    particles[1].setPosition(vec2(200, 200));
+
+    particles[2].setVelocity(vec2(0, -1));
+    particles[2].setPosition(vec2(202.5, 205));
+
+    container.setParticles(particles);
+    container.AdvanceOneFrame();
+
+    SECTION("Particle_one velocity after colliding") {
+      REQUIRE(vec2(1, 0) == container.getParticles()[0].getVelocity());
+    }
+    SECTION("Particle_two velocity in x direction after colliding") {
+      REQUIRE(-1.2f == Approx(container.getParticles()[1].getVelocity().x));
+    }
+    SECTION("Particle_two velocity in y direction after colliding") {
+      REQUIRE(-0.4f == Approx(container.getParticles()[1].getVelocity().y));
+    }
+    SECTION("Particle_three velocity in x direction after colliding") {
+      REQUIRE(0.2f == Approx(container.getParticles()[2].getVelocity().x));
+    }
+    SECTION("Particle_three velocity in y direction after colliding") {
+      REQUIRE(-0.6f == Approx(container.getParticles()[2].getVelocity().y));
+    }
+  }
+}
