@@ -35,7 +35,7 @@ TEST_CASE("Helper method particle tests") {
     REQUIRE(-1 == particle.GetVelocity().x);
   }
   SECTION("BounceOff method") {
-    Particle other_particle(1, 5, vec2(300, 100), vec2(-1, -1), "orange");
+    Particle other_particle(1, 5, vec2(305, 100), vec2(-1, 1), "orange");
 
     REQUIRE(particle.BounceOff(other_particle));
   }
