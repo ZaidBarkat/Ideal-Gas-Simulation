@@ -27,6 +27,8 @@ class Histogram {
 
   void Add(std::vector<Particle> particles);
 
+  int GetParticlesInIntervalOne() const;
+
  private:
   int particles_in_interval_one_ = 0;
   int particles_in_interval_two_ = 0;
@@ -47,7 +49,7 @@ class Histogram {
   static constexpr float third_interval_ = (fifth_interval_ / 5) * 3;
   static constexpr float fourth_interval_ = (fifth_interval_ / 5) * 4;
 
-  static constexpr int y_increase_ = 2;
+  static constexpr int y_increase_ = 3;
 
   vec2 top_left_rectangle_;
   vec2 bottom_right_rectangle_;

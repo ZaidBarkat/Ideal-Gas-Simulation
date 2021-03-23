@@ -80,4 +80,8 @@ void Histogram::Draw() {
 
   Reset();
 }
+
+int Histogram::GetParticlesInIntervalOne() const {
+  return particles_in_interval_one_;
+}
 }  // namespace idealgas
