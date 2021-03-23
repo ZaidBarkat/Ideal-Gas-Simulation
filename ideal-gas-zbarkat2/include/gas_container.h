@@ -1,6 +1,7 @@
 #pragma once
 
 #include "cinder/gl/gl.h"
+#include "histogram.h"
 #include "particle.h"
 
 namespace idealgas {
@@ -20,12 +21,12 @@ class GasContainer {
    * @param radius of each particle
    * @param number_of_particles in the container
    */
-  GasContainer(size_t radius, size_t number_of_particles);
+  GasContainer(float largest_radius, size_t number_of_particles);
 
   /**
    * Displays the container walls and the current positions of the particles.
    */
-  void Display() const;
+  void Display();
 
   /**
    * Updates the positions and velocities of all particles (based on the rules
@@ -42,8 +43,17 @@ class GasContainer {
   static constexpr float kRectangleYMin = 50;
   static constexpr float kRectangleXMax = 800;
   static constexpr float kRectangleYMax = 600;
-  static constexpr float kInitialXVelocity = 3;
-  static constexpr float kInitialYVelocity = 3;
+
+  static constexpr float kInitialXVelocity = 2;
+  static constexpr float kInitialYVelocity = 2;
+
+  static constexpr float kSmallMass = 5;
+  static constexpr float kMediumMass = 10;
+  static constexpr float kLargeMass = 15;
+
+  Histogram histogram_large_mass_ = Histogram(vec2(900,400), vec2(1400, 500), "orange");
+  Histogram histogram_medium_mass_ = Histogram(vec2(900,600), vec2(1400, 700), "blue");
+  Histogram histogram_small_mass_ = Histogram(vec2(900,800), vec2(1400, 900), "green");
 
   std::vector<Particle> particles_;
 

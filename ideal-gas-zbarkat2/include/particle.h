@@ -20,27 +20,44 @@ class Particle {
    * @param position of a particle
    * @param velocity of a particle
    */
-  Particle(size_t radius, const vec2& position, const vec2& velocity);
+  Particle(float mass, float radius, const vec2& position, const vec2& velocity, ci::Color color);
+
+  void DrawParticle();
+
+  void BounceOffWall(float x_min, float y_min, float x_max, float y_max);
+
+  bool BounceOff(Particle particle);
+
+  void UpdateVelocityCollision(
+                               const vec2& velocity_two,
+                               const vec2& position_two,
+                               const float& mass_two);
 
   /**
    * Use to add the velocity to the position of a particle.
    */
-  void AddVelocityToPosition();
+  void UpdatePosition();
 
-  const vec2& getPosition() const;
+  const vec2& GetPosition() const;
 
-  const vec2& getVelocity() const;
+  const vec2& GetVelocity() const;
 
-  size_t getRadius() const;
+  float GetRadius() const;
 
-  void setVelocity(const vec2& velocity);
+  float GetMass() const;
 
-  void setPosition(const vec2& position);
+  void SetVelocity(const vec2& velocity);
+
+  void SetPosition(const vec2& position);
+
+  void SetMass(const float& mass);
 
  private:
-  size_t radius_;
+  float radius_;
   vec2 position_;
   vec2 velocity_;
+  ci::Color color_;
+  float mass_;
 };
 
 }  // namespace idealgas
