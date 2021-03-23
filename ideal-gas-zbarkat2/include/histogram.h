@@ -49,7 +49,7 @@ class Histogram {
   static constexpr float third_interval_ = (fifth_interval_ / 5) * 3;
   static constexpr float fourth_interval_ = (fifth_interval_ / 5) * 4;
 
-  static constexpr int y_increase_ = 3;
+  static constexpr int y_increase_ = 2;
 
   vec2 top_left_rectangle_;
   vec2 bottom_right_rectangle_;

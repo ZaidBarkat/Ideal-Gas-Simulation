@@ -14,6 +14,6 @@ TEST_CASE("Histogram tests") {
 
   SECTION("UpdateNumberOfParticles method") {
     histogram.Add(particles);
-    REQUIRE(3 == histogram.GetParticlesInIntervalOne());
+    REQUIRE(2 == histogram.GetParticlesInIntervalOne());
   }
 }
