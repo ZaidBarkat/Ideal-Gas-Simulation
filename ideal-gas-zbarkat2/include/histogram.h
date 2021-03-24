@@ -51,6 +51,17 @@ class Histogram {
 
   static constexpr int y_increase_ = 2;
 
+  static constexpr float speed_string_position_x_ = 200;
+  static constexpr float speed_string_position_y_ = 40;
+  static constexpr float speed_string_font_ = 50.0f;
+  static constexpr float speed_number_font_ = 40.0f;
+  static constexpr float particle_number_font_ = 20.0f;
+  static constexpr float particle_number_centering_ = 15;
+
+  static constexpr float particle_number_interval_one = 75;
+  static constexpr float particle_number_interval_two = 50;
+  static constexpr float particle_number_interval_three = 25;
+
   vec2 top_left_rectangle_;
   vec2 bottom_right_rectangle_;
   ci::Color color_;

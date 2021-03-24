@@ -195,22 +195,27 @@ TEST_CASE("Three Particles colliding with each other tests") {
     container.AdvanceOneFrame();
 
     SECTION("Particle_one velocity in x direction after colliding") {
-      REQUIRE(2.6363637447f == Approx(container.getParticles()[0].GetVelocity().x));
+      REQUIRE(2.6363637447f ==
+              Approx(container.getParticles()[0].GetVelocity().x));
     }
     SECTION("Particle_one velocity in y direction after colliding") {
       REQUIRE(0.0f == Approx(container.getParticles()[0].GetVelocity().y));
     }
     SECTION("Particle_two velocity in x direction after colliding") {
-      REQUIRE(0.2848484814f == Approx(container.getParticles()[1].GetVelocity().x));
+      REQUIRE(0.2848484814f ==
+              Approx(container.getParticles()[1].GetVelocity().x));
     }
     SECTION("Particle_two velocity in y direction after colliding") {
-      REQUIRE(-0.7030302882f == Approx(container.getParticles()[1].GetVelocity().y));
+      REQUIRE(-0.7030302882f ==
+              Approx(container.getParticles()[1].GetVelocity().y));
     }
     SECTION("Particle_three velocity in x direction after colliding") {
-      REQUIRE(0.7030302882f == Approx(container.getParticles()[2].GetVelocity().x));
+      REQUIRE(0.7030302882f ==
+              Approx(container.getParticles()[2].GetVelocity().x));
     }
     SECTION("Particle_three velocity in y direction after colliding") {
-      REQUIRE(0.4060605764f == Approx(container.getParticles()[2].GetVelocity().y));
+      REQUIRE(0.4060605764f ==
+              Approx(container.getParticles()[2].GetVelocity().y));
     }
   }
 }

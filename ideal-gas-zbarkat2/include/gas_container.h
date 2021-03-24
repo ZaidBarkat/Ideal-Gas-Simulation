@@ -51,9 +51,12 @@ class GasContainer {
   static constexpr float kMediumMass = 10;
   static constexpr float kLargeMass = 15;
 
-  Histogram histogram_large_mass_ = Histogram(vec2(900,400), vec2(1400, 500), "orange");
-  Histogram histogram_medium_mass_ = Histogram(vec2(900,600), vec2(1400, 700), "blue");
-  Histogram histogram_small_mass_ = Histogram(vec2(900,800), vec2(1400, 900), "green");
+  Histogram histogram_large_mass_ =
+      Histogram(vec2(900, 400), vec2(1400, 500), "orange");
+  Histogram histogram_medium_mass_ =
+      Histogram(vec2(900, 600), vec2(1400, 700), "blue");
+  Histogram histogram_small_mass_ =
+      Histogram(vec2(900, 800), vec2(1400, 900), "green");
 
   std::vector<Particle> particles_;
 
