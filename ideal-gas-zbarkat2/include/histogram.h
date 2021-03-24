@@ -8,25 +8,29 @@ namespace idealgas {
 using glm::vec2;
 
 /**
- * The container in which all of the gas particles are contained. This class
- * stores all of the particles and updates them on each frame of the simulation.
+ * The graph of all the particles depending on mass and velocity.
  */
 class Histogram {
  public:
   /**
-   * Use to set an individual particle's radius, initial position, and initial
-   * velocity.
+   * Use to set an individual Histogram's position and color.
    *
-   * @param radius of a particle
-   * @param position of a particle
-   * @param velocity of a particle
+   * @param top left of the rectangle of the Histogram
+   * @param bottom right of the rectangle of the Histogram
+   * @param color of the histogram
    */
   Histogram(vec2 top_left, vec2 bottom_right, ci::Color color);
+
 
   void Draw();
 
   void Add(std::vector<Particle> particles);
 
+  /**
+   * Used for testing.
+   *
+   * @return set of particles from one interval
+   */
   int GetParticlesInIntervalOne() const;
 
  private:

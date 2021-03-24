@@ -7,8 +7,8 @@ namespace idealgas {
 using glm::vec2;
 
 /**
- * The container in which all of the gas particles are contained. This class
- * stores all of the particles and updates them on each frame of the simulation.
+ * The class that creates particles based on given constraints.
+ *
  */
 class Particle {
  public:
@@ -22,12 +22,36 @@ class Particle {
    */
   Particle(float mass, float radius, const vec2& position, const vec2& velocity, ci::Color color);
 
+  /**
+   * Use to draw the Particle into the container.
+   */
   void DrawParticle();
 
+  /**
+   * Checks and changes velocity if particle bounces off the wall.
+   *
+   * @param x_min wall dimension
+   * @param y_min wall dimension
+   * @param x_max wall dimension
+   * @param y_max wall dimension
+   */
   void BounceOffWall(float x_min, float y_min, float x_max, float y_max);
 
+  /**
+   * Check if a particle bounces off another particle.
+   *
+   * @param particle to check against
+   * @return true if bouncing off
+   */
   bool BounceOff(Particle particle);
 
+  /**
+   * Updates the velocity of both particles if they are bouncing off each other.
+   *
+   * @param velocity_two of the second particle
+   * @param position_two of the second particle
+   * @param mass_two of the second mass
+   */
   void UpdateVelocityCollision(
                                const vec2& velocity_two,
                                const vec2& position_two,
